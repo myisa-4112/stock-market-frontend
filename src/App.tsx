@@ -21,6 +21,8 @@ export default function App() {
     setSelectedStock(null)
   }
 
+  // myisa
+
   return (
     <div className='min-h-screen bg-background'>
       <div className='container max-w-2xl mx-auto px-4 py-8'>
