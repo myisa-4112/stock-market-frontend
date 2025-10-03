@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { TradingForm } from './components/TradingForm'
 import { StockSearch } from './components/StockSearch'
+import { Toaster } from 'react-hot-toast';
 
 interface Stock {
-  symbol: string
-  name: string
-  price: number
-  change: number
-  changePercent: number
+  name: string;
+  symbol: string;
+  exchange_token: string;
 }
 
 export default function App() {
@@ -21,7 +20,6 @@ export default function App() {
     setSelectedStock(null)
   }
 
-  // myisa
 
   return (
     <div className='min-h-screen bg-background'>
@@ -32,6 +30,18 @@ export default function App() {
           <StockSearch onStockSelect={handleStockSelect} />
         )}
       </div>
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+        className: '',
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#fff',
+          background: 'black',
+        },
+      }}
+      />
     </div>
   )
 }
