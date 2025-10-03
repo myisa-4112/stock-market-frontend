@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from './ui/select';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 // Define a default stock object to prevent errors if the prop is not passed
 const defaultStock = {
@@ -169,6 +170,48 @@ export const TradingForm = ({ stock = defaultStock, onBack }) => {
   };
 
   const isBuy = position === 'Buy';
+
+
+  useEffect(() => {
+    if (quantity === "") {
+      return
+    }
+
+    if (!quantity || parseInt(quantity, 10) <= 0 || !position || !orderType) {
+      toast.error("enter, position and order type to fetch margin requirements.");
+      return; 
+    }
+
+    const debounceTimer = setTimeout(() => {
+      const fetchData = async () => {
+        try {
+          const requestData = {
+            trading_symbol: stock.symbol,
+            order_type: orderType.toUpperCase(),
+            transaction_type: position.toUpperCase(),
+            quantity: Number(quantity),
+          };
+
+          console.log("Fetching margin with:", requestData);
+
+          const res = await axios.post('http://127.0.1.0:3000/margin', requestData);
+          
+          toast.success(`Total Margin Requried ${res.data.total_requirement} `);
+
+        } catch (error) {
+          toast.error("Failed to fetch margin requirements.");
+          console.error('Error fetching margin data:', error);
+        }
+      };
+
+      fetchData();
+    }, 500); 
+
+    return () => clearTimeout(debounceTimer);
+
+  }, [quantity]);
+
+ 
 
   return (
     <div className='space-y-6'>
