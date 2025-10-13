@@ -27,7 +27,7 @@ const PositionTracker = () => {
   useEffect(() => {
     eventLog.forEach((event) => {
       if (event.event === 'loop_end') {
-        navigate('/trade');
+        navigate('/');
       }
     });
   }, [eventLog]);
