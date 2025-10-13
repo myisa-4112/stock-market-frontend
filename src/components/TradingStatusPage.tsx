@@ -1,11 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card } from "./ui/card";
 import { Button } from './ui/button';
-import { ArrowLeft } from 'lucide-react';
 import { useWebSocket } from '../contexts/WebSocketContext.jsx'; // Import the custom hook
+import { useEffect } from 'react';
+
+
 
 const PositionTracker = () => {
-  // Get all state and data directly from our shared WebSocket context
+  const navigate = useNavigate();
   const { eventLog, connectionStatus } = useWebSocket();
 
   // console.log("Events LOg================>>>>>>",eventLog);
@@ -22,8 +24,13 @@ const PositionTracker = () => {
     }
   };
 
-  // ALL the connection logic (connectWebSocket, useEffect, refs) is now gone.
-  // This component's only job is to display the data it receives from the context.
+  useEffect(() => {
+    eventLog.forEach((event) => {
+      if (event.event === 'loop_end') {
+        navigate('/trade');
+      }
+    });
+  }, [eventLog]);
   
   return (
     <Card className="glass-card mt-6">
@@ -93,14 +100,6 @@ export const TradingStatusPage = () => {
   return (
     <div className="space-y-6 p-6">
       <div className='flex items-center gap-4'>
-        <Button
-          variant='ghost'
-          size='icon'
-          onClick={() => navigate('/')}
-          className='h-10 w-10 cursor-pointer hover:bg-white/10'
-        >
-          <ArrowLeft className='h-5 w-5' />
-        </Button>
         <div>
           <h1 className='text-2xl font-bold'>Live Trading Status</h1>
           <p className='text-muted-foreground'>

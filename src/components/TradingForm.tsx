@@ -77,15 +77,7 @@ export const TradingForm = () => {
         return;
       }
     }
-    const tpValue = parseFloat(takeProfit);
-    const slValue = parseFloat(stopLoss);
-    if (position === 'Buy') {
-      if (tpValue <= price) { toast.error('For a "Buy", Take Profit must be higher than the current price.'); return; }
-      if (slValue >= price) { toast.error('For a "Buy", Stop Loss must be lower than the current price.'); return; }
-    } else {
-      if (tpValue >= price) { toast.error('For a "Sell", Take Profit must be lower than the current price.'); return; }
-      if (slValue <= price) { toast.error('For a "Sell", Stop Loss must be higher than the current price.'); return; }
-    }
+
     setIsLoading(true);
 
     const orderData = {
@@ -189,8 +181,8 @@ export const TradingForm = () => {
                     </div>
                     <div className='space-y-6'>
                         <div className='space-y-2'><Label className='flex items-center gap-2'><DivideSquare className='h-4 w-4' /> Qty Stop Loss Division</Label><Input type='number' placeholder='e.g., 2' value={qtyStopLossDivision} onChange={(e) => setQtyStopLossDivision(e.target.value)} /></div>
-                        <div className='space-y-2'><Label className={`flex items-center gap-2 ${isBuy ? 'text-green-500' : 'text-red-500'}`}><Target className='h-4 w-4' /> Take Profit (TP)</Label><Input type='number' placeholder='Enter take profit price' value={takeProfit} onChange={(e) => setTakeProfit(e.target.value)} step='0.01' /><p className='text-xs text-muted-foreground'>TP should be {isBuy ? 'higher' : 'lower'} than {price !== null ? `₹${price.toFixed(2)}` : 'current price'}</p></div>
-                        <div className='space-y-2'><Label className={`flex items-center gap-2 ${isBuy ? 'text-red-500' : 'text-green-500'}`}><Shield className='h-4 w-4' /> Stop Loss (SL)</Label><Input type='number' placeholder='Enter stop loss price' value={stopLoss} onChange={(e) => setStopLoss(e.target.value)} step='0.01' /><p className='text-xs text-muted-foreground'>SL should be {isBuy ? 'lower' : 'higher'} than {price !== null ? `₹${price.toFixed(2)}` : 'current price'}</p></div>
+                        <div className='space-y-2'><Label className={`flex items-center gap-2 ${isBuy ? 'text-green-500' : 'text-red-500'}`}><Target className='h-4 w-4' /> Take Profit (TP)</Label><Input type='number' placeholder='Enter take profit price' value={takeProfit} onChange={(e) => setTakeProfit(e.target.value)} step='0.01' /></div>
+                        <div className='space-y-2'><Label className={`flex items-center gap-2 ${isBuy ? 'text-red-500' : 'text-green-500'}`}><Shield className='h-4 w-4' /> Stop Loss (SL)</Label><Input type='number' placeholder='Enter stop loss price' value={stopLoss} onChange={(e) => setStopLoss(e.target.value)} step='0.01' /></div>
                     </div>
                 </div>
                 <div className='flex justify-center'>
